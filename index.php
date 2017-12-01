@@ -79,6 +79,6 @@ if(empty($id)){
 
 
 echo "Hello USER";
-echo date('d/m/Y H:i:s', $cur_time_sec);
+
 $result->free();
 $mysqli->close();
