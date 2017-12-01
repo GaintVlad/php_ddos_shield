@@ -49,7 +49,9 @@ if(empty($id)){
             $mysqli->query("INSERT `shield` SET `ip`='{$_SERVER['REMOTE_ADDR']}', `number`='1', `block`='0', `time_ddos`='$cur_time_sec'");
         } else {
 //если бан существует возвращаем ошибку
-            header("HTTP/1.0 403 Forbidden");
+            $msg = ' until ' .date('d/m/Y H:i:s', $unblocking_time);
+            //header($_SERVER['SERVER_PROTOCOL'] . $msg, true, 403);
+            header("HTTP/1.1 423 Locked".$msg);
             exit;
         }
     } else {
@@ -60,7 +62,8 @@ if(empty($id)){
 //если число подключений бльше 5, блокируем ip на 600 сек
                 $unblock_time = $cur_time_sec + 600;
                 $mysqli->query("UPDATE `shield` SET `number`='1', `block`='1', `timeblock`='$unblock_time' WHERE `id`='$id'");
-                header("HTTP/1.0 403 Forbidden");
+                $msg = ' until ' .date('d/m/Y H:i:s', $unblock_time);
+                header("HTTP/1.1 423 Locked".$msg);
                 exit;
             } else {
 //фиксируем время еще одного подключения
@@ -76,6 +79,6 @@ if(empty($id)){
 
 
 echo "Hello USER";
-
+echo date('d/m/Y H:i:s', $cur_time_sec);
 $result->free();
 $mysqli->close();
