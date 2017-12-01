@@ -23,12 +23,6 @@ try {
     echo 'ERROR:'.$e->getMessage();
 }
 
-
-if ($mysqli->connect_errno) {
-    echo "Ошибка: Не удалсь создать соединение с базой данных";
-    exit;
-}
-
 $sql = "SELECT * FROM `shield` WHERE `ip`='{$_SERVER['REMOTE_ADDR']}' LIMIT 1";
 
 if (!$result = $mysqli->query($sql)) {
